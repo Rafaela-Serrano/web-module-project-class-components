@@ -1,4 +1,7 @@
 import React from 'react';
+import Todo from './Todo';
+import TodoList from './TodoList';
+import Form from './Form';
 import { useState } from 'react';
 
 export default class App extends React.Component {
@@ -26,20 +29,12 @@ export default class App extends React.Component {
       <div>
         <h2>Todos:</h2>
 
-        <ul>
-          {
-            this.state.todos.map( todo => { return (<li>{todo.name} 
-            {todo.completed ? <span>  ✔  </span> : <span></span>  } </li>)})
-          }
-          
-        </ul>
+        <TodoList todos = {this.state.todos} />
 
-        <form>
-          <input/>
-          <button>Submit</button>
-        </form>
+        <Form/>
 
         <button>Hide Completed</button>
+        
       </div>
     )
   }
