@@ -2,7 +2,7 @@ import React from 'react';
 import Todo from './Todo';
 import TodoList from './TodoList';
 import Form from './Form';
-import { useState } from 'react';
+import setSate from 'react';
 
 export default class App extends React.Component {
   constructor(){
@@ -24,17 +24,56 @@ export default class App extends React.Component {
       ]
     }
   }
+
+  handleCompleted = () => {
+    this.setState({
+      ...this.state, 
+      todos: this.state.todos.filter ( todo => {
+        return ( todo.completed === false ) ; 
+      })
+    });
+  }
+
+  handleAdd = ( task ) => {
+
+    const newTodo = {
+      name: task ,
+      id: Date.now() ,
+      completed: false, 
+    }
+    this.setState({
+      ...this.state,
+      todos: [ ...this.state.todos, newTodo ]
+    })
+  }
+
+  handleToggle = (clickedId) => {
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.map ( todo => {
+        if (todo.id === clickedId ) {
+          return {...todo,
+          completed: !todo.completed
+        }
+        } 
+          return todo ; 
+        
+      })
+    })
+  }
+
   render() {
+
     return (
       <div>
         <h2>Todos:</h2>
 
-        <TodoList todos = {this.state.todos} />
+        <TodoList todos = {this.state.todos} handletoggled = {this.handleToggle}  />
 
-        <Form/>
+        <Form handleAdd = {this.handleAdd} />
 
-        <button>Hide Completed</button>
-        
+        <button onClick = {this.handleCompleted}>Hide Completed</button>
+
       </div>
     )
   }
